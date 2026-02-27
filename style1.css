@@ -150,7 +150,7 @@ section {
         box-shadow: 0 8px 18px rgba(0,0,0,0.08);
     }
 
-    /* Image styling — scale without cropping */
+    /* Image styling â€” scale without cropping */
     .project-card img {
         width: 100%;
         height: auto; /* maintain aspect ratio */
