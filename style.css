@@ -662,14 +662,14 @@ footer {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
     margin-top: 1.5rem;
+    background: red; /* debug */
 }
 
     .media-grid img {
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         width: 100%;
-        height: auto;
-        display: block;
+       height: auto;
+       border-radius: 12px;
+       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
 /* Results list */
@@ -784,4 +784,5 @@ footer {
 
 .results-list + p {
     margin-top: 1rem;
+
 }
