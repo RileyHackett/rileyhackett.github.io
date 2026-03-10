@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GutterMate | Riley Hackett</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="project-body">
+
+    <!-- ================= NAV ================= -->
+    <nav>
+        <div class="logo"><strong>Riley Hackett</strong></div>
+        <div class="nav-links">
+            <div class="dropdown">
+                <a href="../index.html#projects" class="dropbtn">Projects</a>
+                <div class="dropdown-content">
+                    <a href="project1.html">Capstone</a>
+                    <a href="project2.html">Thesis</a>
+                    <a href="project3.html">Micromouse</a>
+                    <a href="project4.html">GutterMate</a>
+                    <a href="project5.html">PureUV</a>
+                </div>
+            </div>
+            <a href="../index.html">Home</a>
+        </div>
+    </nav>
+
+    <!-- ================= HERO ================= -->
+    <section class="project-hero">
+        <div class="project-hero-inner">
+
+            <div class="project-meta">GutterMate • 3rd Year Design Project</div>
+
+            <h1 class="project-title">
+                Autonomous Gutter Cleaning Robot
+            </h1>
+
+            <p class="project-subtitle">
+                Designed a conceptual autonomous gutter-cleaning robot to address
+                fire-risk and maintenance challenges
+            </p>
+            <div class="hero-divider"></div>
+
+        </div>
+    </section>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <section class="project-container">
+
+
+
+
+        <!-- ===== FEATURED MEDIA SLIDESHOW ===== -->
+        <div class="featured-media">
+            <!-- Image Slide -->
+            <div class="media-slide active">
+                <img src="../resources/GutterMate_Sample.jpg" alt="PUREUV Render">
+
+            </div>
+
+            <!-- Video Slide -->
+            <div class="media-slide">
+                <video muted playsinline>
+                    <source src="../resources/GutterMate/GutterMate_mainMedia.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+
+            </div>
+        </div>
+
+        <script>
+            const slides = document.querySelectorAll('.media-slide');
+            let current = 0;
+            let firstVisit = true; // track first slide display
+
+            function showSlide(index) {
+                slides.forEach((slide) => {
+                    slide.classList.remove('active', 'fade-in');
+                    const video = slide.querySelector('video');
+                    if (video) video.pause();
+                });
+
+                const slide = slides[index];
+                slide.classList.add('active');
+
+                // trigger fade-in purely visual
+                slide.offsetHeight; // force reflow
+                slide.classList.add('fade-in');
+
+                const video = slide.querySelector('video');
+                if (video) {
+                    video.currentTime = 0;
+                    video.play();
+                    video.onended = nextSlide;
+                } else {
+                    // Use half duration if first visit, else full duration
+                    const duration = firstVisit ? 1500 : 7000;
+                    firstVisit = false; // subsequent images use full duration
+                    setTimeout(nextSlide, duration);
+                }
+            }
+
+            function nextSlide() {
+                current = (current + 1) % slides.length;
+                showSlide(current);
+            }
+
+            // Initial display
+            showSlide(current);
+        </script>
+
+        <!-- ===== PROBLEM STATEMENT ===== -->
+        <div class="content-section">
+            <h2>Problem & Solution</h2>
+            <p>
+                Clogged gutters create serious water damage and bushfire risks, yet cleaning them is dangerous, physically demanding,
+                and costly, especially for elderly or physically disadvantaged homeowners. The GutterMate solves this with a permanently
+                installed, solar-powered autonomous robot that regularly clears debris, reducing fire and overflow risk while eliminating
+                ladder use and ongoing cleaning costs.
+            </p>
+        </div>
+
+        <!-- ===== ROLE & RESPONSIBILITIES ===== -->
+        <div class="content-section">
+            <h2>My Role & Responsibilities</h2>
+            <p>
+                I designed a compact internal CAD assembly that prioritised manufacturability while integrating all components within the confines of the outer shell.
+                The layout was engineered around the tight spatial constraints of standard Australian gutters. I led the engineering of the power, drivetrain, cleaning, and control systems.
+                This included motor selection, torque and efficiency calculations, gear train design, debris ejection analysis, and development
+                of the autonomous control and safety systems to ensure reliable, self-sufficient operation.
+            </p>
+        </div>
+
+        <!-- ===== DESIGN ITERATIONS ===== -->
+        <div class="content-section">
+            <h2>Compact Internal Structure</h2>
+            <p>
+                The internal system was designed to fit tightly within standard Australian gutters while maintaining serviceability. Components including the motor,
+                battery stack, battery management pcb, wireless charging coil, and drivetrain were efficiently arranged within the tightly packed housing. All structural frames were designed for sheet-metal cutting, bending, and spot welding
+                to allow manufacturability and easy mass production. Variable gutter widths were also accounted for to ensure broad compatibility.
+            </p>
+            <figure class="iteration-item">
+                <img src="../resources/GutterMate/internalRender.jpg" alt="Internal system, render">
+                <figcaption>Internal system, render</figcaption>
+            </figure>
+            <figure class="iteration-item">
+                <img src="../resources/GutterMate/internalDiagram.jpg" alt="Diagram of key elements, CAD">
+                <figcaption>Diagram of key elements, CAD</figcaption>
+            </figure>
+
+        </div>
+
+        <!-- ===== MECHANICAL DESIGN ===== -->
+        <div class="content-section">
+            <h2>Drivetrain & Power Transmission</h2>
+            <p>
+                The drivetrain was designed to convert high-speed motor output into usable torque for both debris ejection and all-wheel propulsion. A combination
+                of herringbone gears, worm reduction, spline shafts, and a belt-driven wheel system was implemented to balance efficiency, vibration reduction, and
+                traction. Detailed torque, gear ratio, and efficiency calculations validated the system’s ability to deliver sufficient pushing force under worst-case conditions.
+            </p>
+            <figure class="iteration-item">
+                <img src="../resources/GutterMate/drivetrainDiagram.jpg" alt="Mechanical power transmission">
+                <figcaption>Mechanical power transmission</figcaption>
+            </figure>
+            <div class="media-grid iteration-grid">
+                <figure class="iteration-item">
+                    <img src="../resources/GutterMate/wormGear.jpg" alt="Worm gear transmission, render">
+                    <figcaption>Worm gear transmission, render</figcaption>
+                </figure>
+
+                <figure class="iteration-item">
+                    <img src="../resources/GutterMate/motorRender.jpg" alt="Rotor drive, render">
+                    <figcaption>Rotor drive, render</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <!-- ===== DESIGN ITERATIONS ===== -->
+        <div class="content-section">
+            <h2>Autonomous Control</h2>
+            <p>
+                The GutterMate uses a fully autonomous control system to operate safely without user input. Solar-powered wireless charging enables fully sealed, waterproof 
+                operation, while environmental sensors determine when cleaning can occur and configurable frequency settings allow seasonal adjustment. End-of-gutter detection, 
+                automatic docking, and obstruction monitoring ensure reliable, self-sufficient performance.
+            </p>
+            <figure class="iteration-item">
+                <img src="../resources/GutterMate/charger.jpg" alt="Robot charging station, render">
+                <figcaption>Robot charging station, render</figcaption>
+            </figure>
+            
+
+        </div>
+
+
+        <!-- ===== RESULTS & LEARNINGS ===== -->
+        <div class="content-section">
+            <h2>Results & Key Learnings</h2>
+
+
+            <ul class="results-list">
+                <li>
+                    Successfully designed a compact, autonomous gutter-cleaning system within standard Australian gutter constraints.
+                </li>
+                <li>Validated drivetrain torque, debris ejection capability, and power system performance through detailed calculations.</li>
+                <li>Awarded a 94% High Distinction for this project.</li>
+            </ul>
+
+            <p>
+                Developed strong skills in compact mechanical design, drivetrain analysis, and system-level integration, with a greater appreciation for designing around real-world constraints and manufacturability.
+            </p>
+        </div>
+
+        <div class="project-nav">
+            <a href="../projects/project3.html" class="btn prev-btn">← Previous Project</a>
+            <a href="../projects/project5.html" class="btn next-btn">Next Project →</a>
+        </div>
+
+    </section>
+    
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Honours Thesis | Riley Hackett</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="project-body">
+
+    <!-- ================= NAV ================= -->
+    <nav>
+        <div class="logo"><strong>Riley Hackett</strong></div>
+        <div class="nav-links">
+            <div class="dropdown">
+                <a href="../index.html#projects" class="dropbtn">Projects</a>
+                <div class="dropdown-content">
+                    <a href="project1.html">Capstone</a>
+                    <a href="project2.html">Thesis</a>
+                    <a href="project3.html">Micromouse</a>
+                    <a href="project4.html">GutterMate</a>
+                    <a href="project5.html">PureUV</a>
+                </div>
+            </div>
+            <a href="../index.html">Home</a>
+        </div>
+    </nav>
+
+    <!-- ================= HERO ================= -->
+    <section class="project-hero">
+        <div class="project-hero-inner">
+
+            <div class="project-meta">VR Robotics • Honours Thesis</div>
+
+            <h1 class="project-title">
+                Improving the effectiveness of virtual reality in
+                robotics education
+            </h1>
+
+            <p class="project-subtitle">Developed a VR learning environment to make robotic arm training more accessible for engineering students</p>
+            <div class="hero-divider"></div>
+
+        </div>
+    </section>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <section class="project-container">
+        <!-- ===== FEATURED MEDIA SLIDESHOW ===== -->
+        <div class="featured-media">
+            <!-- Image Slide -->
+            <div class="media-slide active">
+                <img src="../resources/Thesis/AR.jpg" alt="AR">
+
+            </div>
+
+            <!-- Video Slide -->
+            <div class="media-slide">
+                <video muted playsinline>
+                    <source src="../resources/Thesis/Thesis_mainMedia.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+
+            </div>
+        </div>
+
+        <script>
+            const slides = document.querySelectorAll('.media-slide');
+            let current = 0;
+            let firstVisit = true; // track first slide display
+
+            function showSlide(index) {
+                slides.forEach((slide) => {
+                    slide.classList.remove('active', 'fade-in');
+                    const video = slide.querySelector('video');
+                    if (video) video.pause();
+                });
+
+                const slide = slides[index];
+                slide.classList.add('active');
+
+                // trigger fade-in purely visual
+                slide.offsetHeight; // force reflow
+                slide.classList.add('fade-in');
+
+                const video = slide.querySelector('video');
+                if (video) {
+                    video.currentTime = 0;
+                    video.play();
+                    video.onended = nextSlide;
+                } else {
+                    // Use half duration if first visit, else full duration
+                    const duration = firstVisit ? 1500 : 7000;
+                    firstVisit = false; // subsequent images use full duration
+                    setTimeout(nextSlide, duration);
+                }
+            }
+
+            function nextSlide() {
+                current = (current + 1) % slides.length;
+                showSlide(current);
+            }
+
+            // Initial display
+            showSlide(current);
+        </script>
+
+        <!-- ===== PROBLEM STATEMENT ===== -->
+        <div class="content-section">
+            <h2>Problem & Solution</h2>
+            <p>
+                Robotics labs rely on expensive physical equipment, which limits student access. Lab time is restricted, hardware availability is low, and safety requirements
+                can reduce hands-on practice. As a result, many students struggle to gain enough practical experience with robotic manipulators.
+
+                This project explored how virtual reality (VR) could be used as an alternative training environment for robotics education. A VR system was developed to simulate
+                a robotic arm workspace, allowing students to practise programming, interaction, and spatial understanding without requiring cumbersome physical hardware.
+            </p>
+        </div>
+
+        <!-- ===== ROLE & RESPONSIBILITIES ===== -->
+        <div class="content-section">
+            <h2>My Role & Responsibilities</h2>
+            <p>
+                I developed and evaluated a virtual reality robotics simulator designed to improve access to laboratory robots in university courses. My responsibilities included building
+                the VR simulation environment, TCP networking architecture, and robot interaction systems, while ensuring compatibility with existing robotics coursework tools such as URsim
+                and MATLAB. I also designed and conducted student user studies to evaluate the system and used the feedback to guide iterative improvements.
+            </p>
+        </div>
+
+        <!-- ===== DESIGN ITERATIONS ===== -->
+        <div class="content-section">
+            <h2>Network Architecture For Multi-Headset Control</h2>
+            <p>
+                To support multiple students simultaneously, I collaborated on the design of a TCP client–server architecture that allows several VR headsets to connect to a central server.
+                Each headset is assigned a unique identifier so student code running on lab computers can send robot commands to the correct virtual robot instance.
+
+                This system enables multiple independent simulations to run in parallel, allowing the platform to scale for classroom deployment.
+            </p>
+            <figure class="iteration-item">
+                <img src="../resources/Thesis/TCP.jpg" alt="TCP architecture diagram">
+                <figcaption>TCP architecture diagram</figcaption>
+            </figure>
+            
+
+
+        </div>
+
+        <!-- ===== MECHANICAL DESIGN ===== -->
+        <div class="content-section">
+            <h2>Augmented Reality Lab Environment</h2>
+            <p>
+                To improve realism and usability, I implemented augmented reality passthrough using the Meta Quest headset cameras. This allows students to see the real laboratory while interacting with the virtual robot.
+
+                The physical UR5e workstation and assignment objects were modelled in CAD and recreated in the simulation, allowing students to test coursework tasks in a workspace that closely mirrors the real robot setup.
+            </p>
+            
+            <div class="media-grid iteration-grid">
+
+                <figure class="iteration-item">
+                    <img src="../resources/Thesis/tableCAD.jpg" alt="Designed workspace, CAD">
+                    <figcaption>Designed workspace, CAD</figcaption>
+                </figure>
+
+                <figure class="iteration-item">
+                    <img src="../resources/Thesis/tableIRL.jpg" alt="Implemented AR">
+                    <figcaption>Implemented AR</figcaption>
+                </figure>
+
+                
+                 
+            </div>
+        </div>
+
+
+        <div class="content-section">
+            <h2>Robotics Assignment Compatibility</h2>
+            <p>
+                To ensure the simulator could support real coursework, I implemented compatibility with a UNSW robotics assignment from MTRN4230. The goal was to allow
+                students to run their assignment code in VR and observe behaviour that closely matches the physical UR5e robot.
+
+
+
+                All assignment objects and obstacles were recreated in CAD and imported into the simulation, and interaction logic was added so the virtual
+                vacuum gripper could pick up nearby objects. The workspace was also modelled using the same board configuration used by the assignment
+                so students could run their path planning and computer vision code directly within the simulation environment.
+            </p>
+
+            <div class="media-grid iteration-grid">
+
+                <figure class="iteration-item">
+                    <img src="../resources/Thesis/IRLass.jpg" alt="Real-life assignment setup">
+                    <figcaption>Real-life assignment setup</figcaption>
+                </figure>
+
+                <figure class="iteration-item">
+                    <img src="../resources/Thesis/VRass.jpg" alt="VR assignment setup">
+                    <figcaption>VR assignment setup</figcaption>
+                </figure>
+            </div>
+
+            
+        </div>
+
+        <!-- ===== RESULTS & LEARNINGS ===== -->
+        <div class="content-section">
+            <h2>Results & Key Learnings</h2>
+
+
+            <ul class="results-list">
+                <li>
+                    The simulator was evaluated through two user studies with robotics students at UNSW. Participants assessed realism, usability, and educational value after interacting with the system.
+
+                    Results showed that improvements such as environment modelling and augmented reality significantly increased perceived realism and usability, suggesting VR simulators can help reduce reliance on physical robotics hardware.
+                </li>
+                <li>The outcomes of this work have also led to ongoing discussions regarding potential publication at an academic engineering education conference.</li>
+                <li>Awarded a 86% High Distinction for this project.</li>
+
+            </ul>
+
+            <p>
+                This project strengthened my skills in Unreal Engine 5 development, including implementing interactive systems and managing CAD-to-engine asset pipelines. I also gained experience deploying the simulator as an Android
+                APK for Meta Quest headsets, configuring the Unreal Android toolchain and debugging device issues. Additionally, the study provided experience with engineering research standards, including ethics approval, structured
+                user testing, and analysing feedback to guide iterative development.
+            </p>
+        </div>
+
+        <div class="project-nav">
+            <a href="../projects/project1.html" class="btn prev-btn">← Previous Project</a>
+            <a href="../projects/project3.html" class="btn next-btn">Next Project →</a>
+        </div>
+
+    </section>
+    
+</body>
+</html>

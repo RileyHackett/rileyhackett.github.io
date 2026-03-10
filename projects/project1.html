@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Burgermaster | Riley Hackett</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="project-body">
+
+    <!-- ================= NAV ================= -->
+    <nav>
+        <div class="logo"><strong>Riley Hackett</strong></div>
+        <div class="nav-links">
+            <div class="dropdown">
+                <a href="../index.html#projects" class="dropbtn">Projects</a>
+                <div class="dropdown-content">
+                    <a href="project1.html">Capstone</a>
+                    <a href="project2.html">Thesis</a>
+                    <a href="project3.html">Micromouse</a>
+                    <a href="project4.html">GutterMate</a>
+                    <a href="project5.html">PureUV</a>
+                </div>
+            </div>
+            <a href="../index.html">Home</a>
+        </div>
+    </nav>
+
+    <!-- ================= HERO ================= -->
+    <section class="project-hero">
+        <div class="project-hero-inner">
+
+            <div class="project-meta">Burgermaster • Senior Capstone Project</div>
+
+            <h1 class="project-title">
+                Automated robotic solution for fast-food burger production
+            </h1>
+
+            <p class="project-subtitle">
+                Designed and deployed a ROS2-based 6-DOF robotic system, integrating custom end-effector design, YOLO computer vision, and real-time visualisation
+            </p>
+            <div class="hero-divider"></div>
+
+        </div>
+    </section>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <section class="project-container">
+        <!-- ===== FEATURED MEDIA SLIDESHOW ===== -->
+        <div class="featured-media">
+            <!-- Image Slide -->
+            <div class="media-slide active">
+                <img src="../resources/mainRender.jpg" alt="PUREUV Render">
+
+            </div>
+
+            <!-- Video Slide -->
+            <div class="media-slide">
+                <video muted playsinline>
+                    <source src="../resources/Capstone/capstone_mainMedia.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+
+            </div>
+        </div>
+
+        <script>
+            const slides = document.querySelectorAll('.media-slide');
+            let current = 0;
+            let firstVisit = true; // track first slide display
+
+            function showSlide(index) {
+                slides.forEach((slide) => {
+                    slide.classList.remove('active', 'fade-in');
+                    const video = slide.querySelector('video');
+                    if (video) video.pause();
+                });
+
+                const slide = slides[index];
+                slide.classList.add('active');
+
+                // trigger fade-in purely visual
+                slide.offsetHeight; // force reflow
+                slide.classList.add('fade-in');
+
+                const video = slide.querySelector('video');
+                if (video) {
+                    video.currentTime = 0;
+                    video.play();
+                    video.onended = nextSlide;
+                } else {
+                    // Use half duration if first visit, else full duration
+                    const duration = firstVisit ? 3000 : 7000;
+                    firstVisit = false; // subsequent images use full duration
+                    setTimeout(nextSlide, duration);
+                }
+            }
+
+            function nextSlide() {
+                current = (current + 1) % slides.length;
+                showSlide(current);
+            }
+
+            // Initial display
+            showSlide(current);
+        </script>
+
+        <!-- ===== PROBLEM STATEMENT ===== -->
+        <div class="content-section">
+            <h2>The Problem</h2>
+            <p>
+                Fast-food burger assembly is labour-intensive, costly, and inconsistent. Existing automation solutions often rely on complex,
+                multi-robot assembly lines with specialised tooling, making them expensive and inflexible for many restaurants. A single-robot 
+                burger assembly system using a UR5e manipulator can be used as a solution, integrating YOLO-based vision, ROS2, 6-DOF path planning with MoveIt, and a custom 
+                universal end-effector. The system detects, localises, and stacks ingredients autonomously while visualising motion and safety constraints in 
+                RViz, providing a flexible and cost-effective automation alternative.
+            </p>
+        </div>
+
+        <!-- ===== ROLE & RESPONSIBILITIES ===== -->
+        <div class="content-section">
+            <h2>My Role & Responsibilities</h2>
+            <p>
+                Responsible for all CAD, manufacturing, and assembly for the project, including feasibility analysis and iterative development of the end-effector solution.
+                Designed and fabricated the complete mechanical system, and modelled the full UR5e workspace to enable realistic visualisation in RViz.
+
+                Developed a workspace-centred RGB-D camera mount to support accurate frame transformations for the computer vision team. On the controls side,
+                implemented all Arduino software for end-effector state handling and built the pre-integration ROS2 packages responsible for serial communication with the controller. Also
+                created a visualisation package to display detected food items in RViz, improving usability and supporting object avoidance capabilities.
+            </p>
+        </div>
+
+        <!-- ===== DESIGN ITERATIONS ===== -->
+        <div class="content-section">
+            <h2>End-Effector Design & Fabrication</h2>
+            <p>
+                A custom end effector was designed to allow a single UR5e manipulator to handle a wide range of burger ingredients, many of which were soft, flexible, and prone to deformation. Multiple concepts were
+                evaluated in CAD before converging on a timing-belt driven gripper with guided jaws and spring-loaded suspension to improve reliability and compliance while handling delicate or uneven items.
+                Spatula-style grippers were incorporated to slide beneath ingredients while a central pick stabilises the stack during release. The mechanism was prototyped using 3D-printed
+                components and off-the-shelf hardware to enable rapid iteration.
+            </p>
+            <figure class="iteration-item">
+                <img src="../resources/Capstone/efRender.jpg" alt="Custom end-effector, render">
+                <figcaption>Custom end-effector, render</figcaption>
+            </figure>
+            <figure class="iteration-item">
+                <img src="../resources/Capstone/sectionAnalysis.jpg" alt="Structural assembly, render">
+                <figcaption>Labelled section analysis</figcaption>
+            </figure>
+            
+
+        </div>
+
+        <!-- ===== MECHANICAL DESIGN ===== -->
+        <div class="content-section">
+            <h2>Embedded Control & ROS2 Integration</h2>
+            <p>
+                End-effector control was implemented on a Teensy 4.1 microcontroller driving a NEMA17 stepper motor via a DRV8825 driver. Custom firmware executes gripper actions from serial
+                commands sent by ROS2, allowing the central control node to synchronise grasping with MoveIt motion planning. A ROS2 interface package was developed to manage communication
+                with the controller, alongside a visualisation package that displays detected ingredients as markers in RViz to support debugging and collision-aware planning.
+            </p>
+            <figure class="iteration-item">
+                <img src="../resources/Capstone/packageDiagram.jpg" alt="ROS2 architecture diagram">
+                <figcaption>ROS2 architecture diagram</figcaption>
+            </figure>
+            <div class="media-grid iteration-grid">
+
+
+                <figure class="iteration-item">
+                    <img src="../resources/Capstone/breadboardDiagram.jpg" alt="Breadboard wiring diagram">
+                    <figcaption>Breadboard wiring diagram</figcaption>
+                </figure>
+
+                <figure class="iteration-item">
+                    <img src="../resources/Capstone/ingredientMarkers.jpg" alt="Ingredient markers visualised in RViz">
+                    <figcaption>Ingredient markers visualised in RViz</figcaption>
+                </figure>
+
+                <figure class="iteration-item">
+                    <video muted playsinline autoplay loop>
+                        <source src="../resources/Capstone/efTest_Media.mp4" type="video/mp4">
+                    </video>
+                    <figcaption>Sending open/close commands over serial</figcaption>
+                </figure>
+            </div>
+        </div>
+
+
+        <div class="content-section">
+            <h2>System CAD, Visualisation & Camera Mount</h2>
+            <p>
+                The full UR5e workspace was modelled in CAD and integrated into a URDF/Xacro description for realistic visualisation in RViz, enabling accurate motion planning and collision checking.
+                As part of this system modelling, a workspace-centred RGB-D camera mount was designed to provide a stable bird’s-eye view of the assembly area, improving ingredient detection and
+                simplifying coordinate transformations between the perception system and the robot.
+            </p>
+            
+            <div class="media-grid iteration-grid">
+
+
+
+
+                <figure class="iteration-item">
+                    <img src="../resources/Capstone/workspaceRender.jpg" alt="Modelled workspace, render">
+                    <figcaption>Modelled workspace, render</figcaption>
+                </figure>
+
+                <figure class="iteration-item">
+                    <img src="../resources/Capstone/workspace.jpg" alt="Workspace visualisation in RViz">
+                    <figcaption>Workspace visualisation in RViz</figcaption>
+                </figure>
+            </div>
+
+            <div class="media-grid iteration-grid">
+
+
+
+
+                <figure class="iteration-item">
+                    <img src="../resources/Capstone/Rviz.jpg" alt="Real-time visualisation in RViz">
+                    <figcaption>Real-time visualisation in RViz</figcaption>
+                </figure>
+
+                <figure class="iteration-item">
+                    <img src="../resources/Capstone/camMount.jpg" alt="Centralised RGB-D camera mount">
+                    <figcaption>Centralised RGB-D camera mount</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <!-- ===== RESULTS & LEARNINGS ===== -->
+        <div class="content-section">
+            <h2>Results & Key Learnings</h2>
+
+
+            <ul class="results-list">
+                <li>
+                    Successfully developed an end effector capable of handling a wide variety of burger ingredients, including different diameters, thicknesses, rigidity, and softness, demonstrating scalability and ingredient care.
+                </li>
+                <li>Addressed a gap in current industry solutions by enabling a single robot to assemble full burgers without multi-stage, ingredient-specialized end effectors, reducing potential space and cost requirements.</li>
+                <li>Awarded a 91% High Distinction for this project, reflecting both technical innovation and practical execution.</li>
+            </ul>
+
+            <p>
+                This project highlighted the challenges of designing a robot to handle variable, delicate ingredients and the need for iterative testing and careful mechanism design. 
+                Equally important, it taught me how to work within client requirements, simulating a real industry scenario where the solution must meet specified constraints and 
+                objectives, reinforcing the value of balancing innovation with practical, client-driven expectations.
+            </p>
+        </div>
+
+        <div class="project-nav">
+            <a href="../projects/project2.html" class="btn next-btn">Next Project →</a>
+        </div>
+
+    </section>
+    
+</body>
+</html>

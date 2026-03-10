@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Micromouse | Riley Hackett</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="project-body">
+
+    <!-- ================= NAV ================= -->
+    <nav>
+        <div class="logo"><strong>Riley Hackett</strong></div>
+        <div class="nav-links">
+            <div class="dropdown">
+                <a href="../index.html#projects" class="dropbtn">Projects</a>
+                <div class="dropdown-content">
+                    <a href="project1.html">Capstone</a>
+                    <a href="project2.html">Thesis</a>
+                    <a href="project3.html">Micromouse</a>
+                    <a href="project4.html">GutterMate</a>
+                    <a href="project5.html">PureUV</a>
+                </div>
+            </div>
+            <a href="../index.html">Home</a>
+        </div>
+    </nav>
+
+    <!-- ================= HERO ================= -->
+    <section class="project-hero">
+        <div class="project-hero-inner">
+
+            <div class="project-meta">Micromouse Competition • 4th Year Robotics Challenge</div>
+
+            <h1 class="project-title">
+                Autonomous Maze Solving Wheeled Robot
+            </h1>
+
+            <p class="project-subtitle">
+                Developed a micromouse robot capable of navigating unseen mazes using sensors, computer vision and path planning algorithms
+            </p>
+            <div class="hero-divider"></div>
+
+        </div>
+    </section>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <section class="project-container">
+
+
+
+
+        <!-- ===== FEATURED MEDIA SLIDESHOW ===== -->
+        <div class="featured-media">
+            <!-- Image Slide -->
+            <div class="media-slide active">
+                <img src="../resources/Micromouse_Sample.jpg" alt="PUREUV Render">
+
+            </div>
+
+            <!-- Video Slide -->
+            <div class="media-slide">
+                <video muted playsinline>
+                    <source src="../resources/Micromouse/Micromouse_mainMedia.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+
+            </div>
+        </div>
+
+        <script>
+            const slides = document.querySelectorAll('.media-slide');
+            let current = 0;
+            let firstVisit = true; // track first slide display
+
+            function showSlide(index) {
+                slides.forEach((slide) => {
+                    slide.classList.remove('active', 'fade-in');
+                    const video = slide.querySelector('video');
+                    if (video) video.pause();
+                });
+
+                const slide = slides[index];
+                slide.classList.add('active');
+
+                // trigger fade-in purely visual
+                slide.offsetHeight; // force reflow
+                slide.classList.add('fade-in');
+
+                const video = slide.querySelector('video');
+                if (video) {
+                    video.currentTime = 0;
+                    video.play();
+                    video.onended = nextSlide;
+                } else {
+                    // Use half duration if first visit, else full duration
+                    const duration = firstVisit ? 1500 : 7000;
+                    firstVisit = false; // subsequent images use full duration
+                    setTimeout(nextSlide, duration);
+                }
+            }
+
+            function nextSlide() {
+                current = (current + 1) % slides.length;
+                showSlide(current);
+            }
+
+            // Initial display
+            showSlide(current);
+        </script>
+
+        <!-- ===== PROBLEM STATEMENT ===== -->
+        <div class="content-section">
+            <h2>The Problem</h2>
+            <p>
+                The challenge of the micromouse competition involved three levels of increasing autonomy. The first required navigating an
+                unseen maze by generating a path using computer vision from an overhead camera. The second introduced an open area with random
+                obstacles, demanding a SLAM-like approach while still utilising overhead vision. The final challenge required the robot to complete
+                a maze completely autonomously, without any assistance from the overhead camera, testing its ability to sense, map, and plan paths independently.
+            </p>
+        </div>
+
+        <!-- ===== ROLE & RESPONSIBILITIES ===== -->
+        <div class="content-section">
+            <h2>My Role & Responsibilities</h2>
+            <p>
+                I was in charge of the mechanical and software integration of the micromouse robot, designing and assembling the full system in CAD while programming the microprocessor using C++
+                to control all sensors and actuators. This involved developing sensor fusion algorithms that combined data from three LiDARs, an onboard IMU, and encoders, tuning PID
+                controllers for precise movement, and implementing the robot’s control logic for smooth, reliable navigation. I also collaborated on higher-level path-planning, integrating
+                computer vision inputs using Python with openCV to enable the robot to navigate unseen mazes and dynamic obstacle environments.
+            </p>
+        </div>
+
+        <!-- ===== DESIGN ITERATIONS ===== -->
+        <div class="content-section">
+            <h2>Design & Assembly</h2>
+            <p>
+                I soldered and integrated all PCBs and electrical components, then designed a structural mounting system to securely hold the dual PCB wafers, drive motors, and wheel assembly
+                together. Because the robot used a two-wheel configuration, I incorporated ball-bearing stabilisers to ensure stability and smooth motion. Particular focus was placed on
+                minimising overall height to lower the centre of gravity, improving balance and high-speed performance.
+            </p>
+            <figure class="iteration-item">
+                <img src="../resources/Micromouse/wafers.jpg" alt="Soldered PCB wafers">
+                <figcaption>Soldered PCB wafers</figcaption>
+            </figure>
+            <div class="media-grid iteration-grid">
+                <figure class="iteration-item">
+                    <img src="../resources/Micromouse/micromouseRender.jpg" alt="Structural assembly, render">
+                    <figcaption>Structural assembly, render</figcaption>
+                </figure>
+
+                <figure class="iteration-item">
+                    <img src="../resources/Micromouse/under.jpg" alt="3D printed assembly">
+                    <figcaption>3D printed assembly</figcaption>
+                </figure>
+            </div>
+
+        </div>
+
+        <!-- ===== MECHANICAL DESIGN ===== -->
+        <div class="content-section">
+            <h2>Robot Control Software</h2>
+            <p>
+                I programmed the microcontroller in C++ to manage all sensing, actuation, and motion control. This included implementing and tuning PID controllers for
+                precise wall-following, turning, and straight-line stability. To improve accuracy during straight driving, I implemented a parabolic sensor fusion method
+                that combined LiDAR and IMU data to minimise drift and smooth trajectory corrections. The final control architecture enabled reliable, autonomous navigation.
+            </p>
+
+            <div class="media-grid iteration-grid">
+                <figure class="iteration-item">
+                    <video muted playsinline autoplay loop>
+                        <source src="../resources/micromouse/lidarTest_mediaP.mp4" type="video/mp4">
+                    </video>
+                    <figcaption>PID tuning for LiDAR wall detection</figcaption>
+                </figure>
+
+                <figure class="iteration-item">
+                    <video muted playsinline autoplay loop>
+                        <source src="../resources/micromouse/deadReckoningP.mp4" type="video/mp4">
+                    </video>
+                    <figcaption>Testing IMU + encoders dead reckoning capabilities</figcaption>
+                </figure>
+            </div>
+        </div>
+
+
+        <div class="content-section">
+            <h2>Computer Vision & Path Planning</h2>
+            <p>
+                In a secondary role, I supported the computer vision team by developing and testing path-planning algorithms separately in Python using OpenCV. For the
+                SLAM-style challenge I explored RRT* and Dijkstra for open-space path generation in a more complex, object-filled environment.
+            </p>
+
+            <div class="media-grid iteration-grid">
+                <figure class="iteration-item">
+                    <img src="../resources/Micromouse/original.jpg" alt="Camera feed">
+                    <figcaption>Camera feed</figcaption>
+                </figure>
+
+
+
+                <figure class="iteration-item">
+                    <img src="../resources/Micromouse/RRT.jpg" alt="Image processing and RRT* applied">
+                    <figcaption>Image processing and RRT* applied</figcaption>
+                </figure>
+
+                <figure class="iteration-item">
+                    <img src="../resources/Micromouse/Dijkstras.jpg" alt="Image processing and Dijkstra applied">
+                    <figcaption>Image processing and Dijkstra applied</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <!-- ===== RESULTS & LEARNINGS ===== -->
+        <div class="content-section">
+            <h2>Results & Key Learnings</h2>
+
+
+            <ul class="results-list">
+                <li>
+                    Developed a micromouse that completed all three competition levels, excelling in the generated-path and fully autonomous challenges.
+                </li>
+                <li>First in the competition to successfully complete the maze and ultimately finished in the top 10% of teams for speed.</li>
+                <li>Awarded an 85% High Distinction for this project.</li>
+            </ul>
+
+            <p>
+                This project strengthened my understanding of sensor fusion, particularly combining LiDAR and IMU data for stable navigation. I developed practical 
+                experience tuning PID controllers for precise motion control and gained deeper insight into path-planning algorithms.
+            </p>
+        </div>
+
+        <div class="project-nav">
+            <a href="../projects/project2.html" class="btn prev-btn">← Previous Project</a>
+            <a href="../projects/project4.html" class="btn next-btn">Next Project →</a>
+        </div>
+
+    </section>
+    
+</body>
+</html>
